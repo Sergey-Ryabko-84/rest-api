@@ -7,6 +7,8 @@ const { handleMongooseError } = require("../utils");
 const emailRegexp =
   /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 
+// **************** User model **************** //
+
 const userSchema = new Schema(
   {
     name: {
@@ -38,4 +40,19 @@ userSchema.post("save", handleMongooseError);
 
 const User = model("user", userSchema);
 
-module.exports = { User };
+// **************** joi validation schemes **************** //
+
+const signupSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().pattern(emailRegexp).required(),
+  password: Joi.string().min(6).required(),
+});
+
+const signinSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+  password: Joi.string().min(6).required(),
+});
+
+const schemas = { signupSchema, signinSchema };
+
+module.exports = { User, schemas };
