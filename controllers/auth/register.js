@@ -4,9 +4,8 @@ const { User } = require("../../models/user");
 const { HttpError } = require("../../utils");
 
 const register = async (req, res) => {
-    console.log("register");
   const { email, password } = req.body;
-  existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw HttpError(409, "Email already in use");
   }
