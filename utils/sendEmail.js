@@ -1,17 +1,3 @@
-// const sgMail = require("@sendgrid/mail");
-// const { SENDGRID_API_KEY, SENDGRID_EMAIL } = process.env;
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-// const sendEmail = (data) => {
-//   const email = { ...data, from: process.env.SENDGRID_EMAIL };
-//   sgMail
-//     .send(email)
-//     .then(() => console.log("the mail was sent successfully"))
-//     .catch((error) => console.log(error));
-//   console.log("email send");
-//   return true;
-// };
-
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
