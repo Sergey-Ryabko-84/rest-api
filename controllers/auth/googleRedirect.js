@@ -28,9 +28,13 @@ const googleRedirect = async (req, res) => {
     headers: { Authorization: `Bearer ${tokenData.data.access_token}` },
   });
 
-  const token = await signInWithAGoogleAccount(userData.data);
+  const { accessToken, refreshToken } = await signInWithAGoogleAccount(
+    userData.data
+  );
 
-  return res.redirect(`${process.env.FRONTEND_URL}?token=${token}`);
+  return res.redirect(
+    `${process.env.FRONTEND_URL}?accessToken=${accessToken}&refreshToken=${refreshToken}`
+  );
 };
 
 module.exports = googleRedirect;

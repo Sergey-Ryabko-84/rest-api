@@ -17,13 +17,18 @@ const login = async (req, res) => {
   }
 
   const payload = { id: user._id };
-  const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "7d" });
-  user.token.push(token);
+  const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {
+    expiresIn: "15m",
+  });
+  const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
+    expiresIn: "7d",
+  });
 
-  await User.findByIdAndUpdate(user._id, { token: user.token });
+  await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
 
   res.json({
-    token,
+    accessToken,
+    refreshToken,
     user: {
       id: user._id,
       name: user.name,

@@ -9,13 +9,16 @@ const signInWithAGoogleAccount = async (data) => {
   const user = await User.findOne({ email: data.email });
   if (user) {
     const payload = { id: user._id };
-    const token = jwt.sign(payload, process.env.SECRET_KEY, {
+    const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {
+      expiresIn: "15m",
+    });
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
       expiresIn: "7d",
     });
-    user.token.push(token);
-    await User.findByIdAndUpdate(user._id, { token: user.token });
 
-    return token;
+    await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
+
+    return { accessToken, refreshToken };
   }
 
   // signup new user
@@ -43,14 +46,16 @@ const signInWithAGoogleAccount = async (data) => {
 
   const newUser = await User.findOne({ email: data.email });
   const payload = { id: newUser._id };
-  const token = jwt.sign(payload, process.env.SECRET_KEY, {
+  const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {
+    expiresIn: "15m",
+  });
+  const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
     expiresIn: "7d",
   });
-  newUser.token.push(token);
 
-  await User.findByIdAndUpdate(newUser._id, { token: newUser.token });
+  await User.findByIdAndUpdate(newUser._id, { accessToken, refreshToken });
 
-  return token;
+  return { accessToken, refreshToken };
 };
 
 module.exports = signInWithAGoogleAccount;

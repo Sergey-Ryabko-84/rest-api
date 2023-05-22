@@ -16,15 +16,18 @@ const register = async (req, res) => {
 
   const newUser = await User.findOne({ email });
   const payload = { id: newUser._id };
-  const token = jwt.sign(payload, process.env.SECRET_KEY, {
+  const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {
+    expiresIn: "15m",
+  });
+  const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
     expiresIn: "7d",
   });
-  newUser.token.push(token);
 
-  await User.findByIdAndUpdate(newUser._id, { token: newUser.token });
+  await User.findByIdAndUpdate(newUser._id, { accessToken, refreshToken });
 
   res.status(201).json({
-    token,
+    accessToken,
+    refreshToken,
     user: {
       id: newUser._id,
       name: newUser.name,

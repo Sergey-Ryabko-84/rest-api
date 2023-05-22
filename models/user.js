@@ -31,9 +31,11 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
-    token: {
-      type: Array,
-      default: [],
+    accessToken: {
+      type: String,
+    },
+    refreshToken: {
+      type: String,
     },
   },
   { versionKey: false, timestamps: true }
@@ -56,6 +58,10 @@ const signinSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const schemas = { signupSchema, signinSchema };
+const refreshSchema = Joi.object({
+  refreshToken: Joi.string().required(),
+});
+
+const schemas = { signupSchema, signinSchema, refreshSchema };
 
 module.exports = { User, schemas };
