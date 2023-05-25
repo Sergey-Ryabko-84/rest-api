@@ -13,10 +13,15 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  folder: "avatars",
-  allowedFormats: ["jpg", "png"],
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
+  params: (req, file) => {
+    return {
+      folder: "avatars",
+      allowedFormats: ["jpg", "png"],
+      public_id: `${file.originalname.slice(0, -4)}_${Date.now()}`,
+      transformation: [
+        { height: 200, width: 200, crop: "fill" },
+      ],
+    };
   },
 });
 
