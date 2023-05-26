@@ -2,8 +2,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const generator = require("generate-password");
 const { User } = require("../../models/user");
-const { sendEmail } = require("../../utils");
-const { accessDataMail } = require("../../utils/mails");
 
 const signInWithAGoogleAccount = async (data) => {
   const user = await User.findOne({ email: data.email });
@@ -34,15 +32,6 @@ const signInWithAGoogleAccount = async (data) => {
     password: hashPass,
     email: data.email,
   });
-
-  // send password to email
-  const accessDataEmail = {
-    to: data.email,
-    subject: "Coontact Book",
-    html: accessDataMail(password),
-  };
-
-  await sendEmail(accessDataEmail);
 
   const newUser = await User.findOne({ email: data.email });
   const payload = { id: newUser._id };

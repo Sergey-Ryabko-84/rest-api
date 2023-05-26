@@ -7,6 +7,7 @@ const getCurrent = require("./getCurrent");
 const googleAuth = require("./googleAuth");
 const googleRedirect = require("./googleRedirect");
 const logout = require("./logout");
+const createNawPassword = require("./createNawPassword");
 
 module.exports = {
   register: ctrlWrapper(register),
@@ -16,4 +17,5 @@ module.exports = {
   googleAuth: ctrlWrapper(googleAuth),
   googleRedirect: ctrlWrapper(googleRedirect),
   logout: ctrlWrapper(logout),
+  createNawPassword: ctrlWrapper(createNawPassword),
 };
