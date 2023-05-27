@@ -60,6 +60,11 @@ const refreshSchema = Joi.object({
   refreshToken: Joi.string().required(),
 });
 
-const schemas = { signupSchema, signinSchema, refreshSchema };
+const updateSchema = Joi.object({
+  name: Joi.string().min(2),
+  email: Joi.string().pattern(emailRegexp),
+});
+
+const schemas = { signupSchema, signinSchema, refreshSchema, updateSchema };
 
 module.exports = { User, schemas };
