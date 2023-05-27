@@ -1,11 +1,11 @@
-const express = require("express");
+const { Router } = require("express");
 const { authenticate, validateBody } = require("../../middlewares");
 const { uploadCloud } = require("../../middlewares/uploadCloud");
 const { ctrlWrapper } = require("../../utils");
 const { schemas } = require("../../models/user");
 const { getUserInfo, updateUser } = require("../../controllers/users");
 
-const router = express.Router();
+const router = Router();
 
 router.get("/", authenticate, ctrlWrapper(getUserInfo));
 

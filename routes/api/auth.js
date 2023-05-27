@@ -1,9 +1,9 @@
-const express = require("express");
-const ctrl = require("../../controllers/auth")
+const { Router } = require("express");
+const ctrl = require("../../controllers/auth");
 const { validateBody, authenticate } = require("../../middlewares");
 const { schemas } = require("../../models/user");
 
-const router = express.Router();
+const router = Router();
 
 // SingUp
 router.post("/register", validateBody(schemas.signupSchema), ctrl.register);
