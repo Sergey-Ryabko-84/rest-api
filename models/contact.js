@@ -30,6 +30,7 @@ const contactSchema = new Schema(
     },
     status: {
       type: [String],
+      default: [],
     },
     favorite: {
       type: Boolean,
