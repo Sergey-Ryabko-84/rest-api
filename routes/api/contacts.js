@@ -11,6 +11,14 @@ router.get("/:id", authenticate, isValidId, ctrl.getById);
 
 router.post("/", authenticate, validateBody(schemas.addSchena), ctrl.add);
 
+router.put(
+  "/:id",
+  authenticate,
+  isValidId,
+  validateBody(schemas.updateSchena),
+  ctrl.updateById
+);
+
 router.delete("/:id", authenticate, isValidId, ctrl.deleteById);
 
 module.exports = router;
