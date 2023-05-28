@@ -20,7 +20,6 @@ const contactSchema = new Schema(
     },
     avatarURL: {
       type: String,
-      default: "",
     },
     birth: {
       type: Date,
