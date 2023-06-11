@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const generator = require("generate-password");
 const { User } = require("../../models/user");
-const { sendEmail } = require("../../utils");
+const { sendEmail, HttpError } = require("../../utils");
 const { accessDataMail } = require("../../utils/mails");
 
 const createNawPassword = async (req, res) => {
@@ -12,11 +12,15 @@ const createNawPassword = async (req, res) => {
   });
   const hashPass = await bcrypt.hash(password, 10);
 
-  await User.findByIdAndUpdate(req.user._id, { password: hashPass });
+  const { email } = req.body;
+  const user = await User.findOneAndUpdate({ email }, { password: hashPass });
+  if (!user) {
+    throw HttpError(401, "Email invalid");
+  }
 
 // send password to email
   const newPassEmail = {
-    to: req.user.email,
+    to: user.email,
     subject: "Coontact Book. Password recovery",
     html: accessDataMail(password),
   };

@@ -14,7 +14,11 @@ router.post("/refresh", validateBody(schemas.refreshSchema), ctrl.refresh);
 router.get("/current", authenticate, ctrl.getCurrent);
 router.get("/google", ctrl.googleAuth);
 router.get("/google-redirect", ctrl.googleRedirect);
-router.get("/password", authenticate, ctrl.createNawPassword);
+router.post(
+  "/password",
+  validateBody(schemas.emailSchema),
+  ctrl.createNawPassword
+);
 
 // SingOut
 router.post("/logout", authenticate, ctrl.logout);

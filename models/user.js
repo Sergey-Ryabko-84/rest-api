@@ -65,6 +65,16 @@ const updateSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp),
 });
 
-const schemas = { signupSchema, signinSchema, refreshSchema, updateSchema };
+const emailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+});
+
+const schemas = {
+  signupSchema,
+  signinSchema,
+  refreshSchema,
+  updateSchema,
+  emailSchema,
+};
 
 module.exports = { User, schemas };
